@@ -1,62 +1,80 @@
 import sys
-studentsData = []
-# functions
+students = []
+courses = []
 def menu():
-    print("""
-        Welcome to the \"Saharah School Managment system"\
-        
-        Enter 1 for Add Stuents \n
-        Enter 2 for Display Students \n
-        Enter 3 for Update Students \n
-        Enter 4 for Delete Students 
-    """)
-def addStudents(studentsData):
-    name = input("please enter student name\n")
-    studentsData.insert(0, name)
-    print(f"{name} is inserted in student list successfully")
-def displayStudents(studentsData):
-    count = 0
-    print("Display Students Data\n")
-    if studentsData == []:
-        print("list is Empty")
-        addStudents(studentsData)
-    for x in studentsData:
-        count=count+1
-        print(f"{count} => {x}")
-def updateStudents(studentsData):
-    displayStudents(studentsData)
-    index = int(input("enter student number that you want to updated\n"))
-    index = index-1
-    newName = input("enter new name\n")
-    studentsData[index]=newName
-    print("Student updated successfully")
-    displayStudents(studentsData)
-def deleteStudents(studentsData):
-    displayStudents(studentsData)
-    index = int(input("enter student number that you want to deleted\n"))
-    index = index - 1
-    del studentsData[index]
-    print("Student deleted successfully")
-    displayStudents(studentsData)
+    print('School Managment System')
+    print('1 . Add Student')
+    print('2 . Add Course')
+    print('3 . Enroll Student in Course')
+    print('4 . Display Student information')
+    print('5 . Exit')
+def add_student(id , name , age):
+    print('add student' , id , name , age)
+    students.append({})
+    students[id-1]['id'] = id
+    students[id-1]['name'] = name
+    students[id-1]['age'] = age
+   
+    print(students)
+    return id
+ 
+def add_course(id , name , instructor):
+    print('add course' , id  , name , instructor)
+    courses.append({})
+    courses[id-1]['id'] = id
+    courses[id-1]['name'] = name
+    courses[id-1]['instrcutor'] = instructor
+    print(courses)
+def enroll_student(student_id , course_id):
+    print("enroll student" , student_id , course_id)
+    students[student_id-1]['courses'] = courses[course_id-1]
+    print(students)
+def display_student_info(id):
+    print('student information')
+    print(students[id-1])
+try:
+    i = 0
+    choice = "y"
+    while i>=0:
+        menu()
+        value = int(input("Enter your choice:\n"))
+        match value:
+            case 1:
+                std_id = int(input("Enter student id : \n"))
+                std_name = input("enter student name : \n")
+                std_age = input("enter student age : \n")
+                add_student(std_id , std_name, std_age)
+            case 2: 
+                print('add course')
+                course_id = int(input("enter course id : \n"))
+                course_name = input("enter course name : \n")
+                course_instructor = input("enter course instructor name : \n")
+                add_course(course_id , course_name , course_instructor)
+            case 3:
+                print('enroll student')
+                student_id = int(input("enter student id : \n"))
+                course_id = int(input("enter course id : \n"))
+                enroll_student(student_id , course_id)
+            case 4:
+                print('display student')
+                student_id = int(input("enter student id : \n"))
+                display_student_info(student_id)
 
+            case 5:
+                print('exit')
+                break 
+            case __:
+                print('invaid input')
+        choice = input("want to repeat again press 'y':\n")
+        choice.lower()
+        if choice == 'y':
+            continue
+        else:
+            break
 
-menu()
+except ValueError as e:
+    print('you must enter intager value')
+except Exception as e:
+    print('something went worng.......' , e)
 
-i = 0
-while(i >= 0):
-    menu()
-    choice = int(input("Enter Your Choice between 1 - 4 : \n"))
-    if choice == 1:
-        addStudents(studentsData)
-    elif choice == 2:
-        displayStudents(studentsData)
-    elif choice == 3:
-        updateStudents(studentsData)
-    elif choice == 4:
-        deleteStudents(studentsData)
-    repeat = input("Enter y to repeat again \n and n to exit \n")
-    repeat.lower()
-    if repeat == "y":
-        continue
-    else:
-        break
+   
